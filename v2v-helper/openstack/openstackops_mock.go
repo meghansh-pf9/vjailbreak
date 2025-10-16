@@ -13,6 +13,7 @@ import (
 	servers "github.com/gophercloud/gophercloud/openstack/compute/v2/servers"
 	networks "github.com/gophercloud/gophercloud/openstack/networking/v2/networks"
 	ports "github.com/gophercloud/gophercloud/openstack/networking/v2/ports"
+	subnets "github.com/gophercloud/gophercloud/openstack/networking/v2/subnets"
 	"github.com/platform9/vjailbreak/v2v-helper/pkg/k8sutils"
 	vm "github.com/platform9/vjailbreak/v2v-helper/vm"
 )
@@ -55,18 +56,18 @@ func (mr *MockOpenstackOperationsMockRecorder) AttachVolumeToVM(volumeID interfa
 }
 
 // CreatePort mocks base method.
-func (m *MockOpenstackOperations) CreatePort(networkid *networks.Network, mac, ip, vmname string, securityGroups []string) (*ports.Port, error) {
+func (m *MockOpenstackOperations) CreatePort(networkid *networks.Network, mac, ip, vmname string, securityGroups []string, fallbackToDHCP bool) (*ports.Port, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreatePort", networkid, mac, ip, vmname, securityGroups)
+	ret := m.ctrl.Call(m, "CreatePort", networkid, mac, ip, vmname, securityGroups, fallbackToDHCP)
 	ret0, _ := ret[0].(*ports.Port)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreatePort indicates an expected call of CreatePort.
-func (mr *MockOpenstackOperationsMockRecorder) CreatePort(networkid, mac, ip, vmname, securityGroups interface{}) *gomock.Call {
+func (mr *MockOpenstackOperationsMockRecorder) CreatePort(networkid, mac, ip, vmname, securityGroups, fallbackToDHCP interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePort", reflect.TypeOf((*MockOpenstackOperations)(nil).CreatePort), networkid, mac, ip, vmname, securityGroups)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePort", reflect.TypeOf((*MockOpenstackOperations)(nil).CreatePort), networkid, mac, ip, vmname, securityGroups, fallbackToDHCP)
 }
 
 // CreateVM mocks base method.
@@ -216,6 +217,21 @@ func (mr *MockOpenstackOperationsMockRecorder) GetPort(portID interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPort", reflect.TypeOf((*MockOpenstackOperations)(nil).GetPort), portID)
 }
 
+// GetSubnet mocks base method.
+func (m *MockOpenstackOperations) GetSubnet(subnetList []string, ip string) (*subnets.Subnet, error) {
+    m.ctrl.T.Helper()
+    ret := m.ctrl.Call(m, "GetSubnet", subnetList, ip)
+    ret0, _ := ret[0].(*subnets.Subnet)
+    ret1, _ := ret[1].(error)
+    return ret0, ret1
+}
+
+// GetSubnet indicates an expected call of GetSubnet.
+func (mr *MockOpenstackOperationsMockRecorder) GetSubnet(subnetList, ip interface{}) *gomock.Call {
+    mr.mock.ctrl.T.Helper()
+    return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSubnet", reflect.TypeOf((*MockOpenstackOperations)(nil).GetSubnet), subnetList, ip)
+}
+
 // GetSecurityGroupIDs mocks base method.
 func (m *MockOpenstackOperations) GetSecurityGroupIDs(groupNames []string, projectName string) ([]string, error) {
 	m.ctrl.T.Helper()
@@ -248,7 +264,7 @@ func (mr *MockOpenstackOperationsMockRecorder) SetVolumeBootable(volume interfac
 // SetVolumeImageMetadata mocks base method.
 func (m *MockOpenstackOperations) SetVolumeImageMetadata(volume *volumes.Volume, setRDMLabel bool) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetVolumeImageMetadata", volume)
+	ret := m.ctrl.Call(m, "SetVolumeImageMetadata", volume, setRDMLabel)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
@@ -256,7 +272,7 @@ func (m *MockOpenstackOperations) SetVolumeImageMetadata(volume *volumes.Volume,
 // SetVolumeImageMetadata indicates an expected call of SetVolumeImageMetadata.
 func (mr *MockOpenstackOperationsMockRecorder) SetVolumeImageMetadata(volume interface{}, setRDMLabel bool) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetVolumeImageMetadata", reflect.TypeOf((*MockOpenstackOperations)(nil).SetVolumeImageMetadata), volume)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetVolumeImageMetadata", reflect.TypeOf((*MockOpenstackOperations)(nil).SetVolumeImageMetadata), volume, setRDMLabel)
 }
 
 // SetVolumeUEFI mocks base method.

@@ -440,25 +440,27 @@ func TestCreateTargetInstance(t *testing.T) {
 		RAM:   2048,
 	}, nil).AnyTimes()
 	mockOpenStackOps.EXPECT().GetNetwork(gomock.Any()).Return(&networks.Network{}, nil).AnyTimes()
-	mockOpenStackOps.EXPECT().CreatePort(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(&ports.Port{
+	mockOpenStackOps.EXPECT().CreatePort(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(&ports.Port{
 		MACAddress: "mac-address",
 		FixedIPs: []ports.IP{
 			{IPAddress: "ip-address"},
 		},
 	}, nil).AnyTimes()
 	mockOpenStackOps.EXPECT().GetNetwork(gomock.Any()).Return(&networks.Network{}, nil).AnyTimes()
-	mockOpenStackOps.EXPECT().CreatePort(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(&ports.Port{
+	mockOpenStackOps.EXPECT().CreatePort(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(&ports.Port{
 		MACAddress: "mac-address",
 		FixedIPs: []ports.IP{
 			{IPAddress: "ip-address"},
 		},
 	}, nil).AnyTimes()
+	mockOpenStackOps.EXPECT().GetSecurityGroupIDs(gomock.Any(), gomock.Any()).Return(nil, nil).AnyTimes()
 	mockOpenStackOps.EXPECT().CreateVM(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(&servers.Server{}, nil).AnyTimes()
 	mockOpenStackOps.EXPECT().WaitUntilVMActive(gomock.Any()).Return(true, nil).AnyTimes()
 	mockOpenStackOps.EXPECT().GetFlavor("flavor-id").Return(&flavors.Flavor{
 		VCPUs: 2,
 		RAM:   2048,
 	}, nil).AnyTimes()
+	mockOpenStackOps.EXPECT().GetSecurityGroupIDs(gomock.Any(), gomock.Any()).Return(nil, nil).AnyTimes()
 	inputvminfo := vm.VMInfo{
 		Name:   "test-vm",
 		OSType: "linux",
@@ -511,6 +513,7 @@ func TestCreateTargetInstance_AdvancedMapping_Ports(t *testing.T) {
 		VCPUs: 2,
 		RAM:   2048,
 	}, nil).AnyTimes()
+	mockOpenStackOps.EXPECT().GetSecurityGroupIDs(gomock.Any(), gomock.Any()).Return(nil, nil).AnyTimes()
 	inputvminfo := vm.VMInfo{
 		Name:   "test-vm",
 		OSType: "linux",
@@ -545,6 +548,7 @@ func TestCreateTargetInstance_AdvancedMapping_InsufficientPorts(t *testing.T) {
 		RAM:   2048,
 	}, nil).AnyTimes()
 	mockOpenStackOps.EXPECT().WaitUntilVMActive(gomock.Any()).Return(true, nil).AnyTimes()
+	mockOpenStackOps.EXPECT().GetSecurityGroupIDs(gomock.Any(), gomock.Any()).Return(nil, nil).AnyTimes()
 	inputvminfo := vm.VMInfo{
 		Name:   "test-vm",
 		OSType: "linux",
